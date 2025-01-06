@@ -6,6 +6,7 @@ export class Checkout {
   private cart: Map<string, number>;
   private cartPricingRule: CartPricingRule;
   public productList: Product[];
+  private totalTillNow: number = 0;
 
   constructor(pricingRule: CartPricingRule) {
     this.cart = new Map();
@@ -16,19 +17,24 @@ export class Checkout {
   scan(sku: string): void {
     const count = this.cart.get(sku) || 0;
     this.cart.set(sku, count + 1);
+    
+    console.log("total till now", this.total());
   }
 
   total(): string {
     let finalPrice: number = 0;
-    finalPrice += this.cartPricingRule.applyRules(this.cart);
+    // const cartCopy = this.cart;
+    const cartCopy = new Map(this.cart);
+    
+    finalPrice += this.cartPricingRule.applyRules(cartCopy);
 
-    for (const [sku, count] of this.cart) {
+    for (const [sku, count] of cartCopy) {
       const price = this.productList.find((item) => item.sku === sku)?.price || 0;
       if (price) {
         finalPrice += price * count;
       }
     }
-    console.log(`Total: $${finalPrice.toFixed(2)}`);
+    // console.log(`Total: $${finalPrice.toFixed(2)}`);
     return `$${finalPrice.toFixed(2)}`;
   }
 }

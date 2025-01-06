@@ -10,11 +10,14 @@ const pricingRules = new CartPricingRule([
 
 const co = new Checkout(pricingRules);
 co.scan('atv');
-co.scan('ipd');
-co.scan('ipd');
 co.scan('atv');
-co.scan('ipd');
-co.scan('ipd');
-co.scan('ipd');
+co.scan('atv');
+co.scan('vga');
+// co.scan('ipd');
+// co.scan('ipd');
+// co.scan('atv');
+// co.scan('ipd');
+// co.scan('ipd');
+// co.scan('ipd');
 
 co.total();
